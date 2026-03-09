@@ -1,0 +1,470 @@
+{
+  "nodes": [
+    {
+      "id": "actor-system",
+      "type": "text",
+      "text": "Actor System\n\nRoot container for all actors, extensions, and configuration",
+      "x": 400,
+      "y": 50,
+      "width": 250,
+      "height": 100,
+      "color": "#1976D2",
+      "pv": {
+        "nodeType": "core",
+        "shape": "rectangle",
+        "icon": "Box",
+        "references": [
+          "actor/actor_system.go"
+        ]
+      }
+    },
+    {
+      "id": "root-context",
+      "type": "text",
+      "text": "Root Context\n\nEntry point for spawning top-level actors",
+      "x": 554,
+      "y": 262,
+      "width": 200,
+      "height": 100,
+      "color": "#7B1FA2",
+      "pv": {
+        "nodeType": "context",
+        "shape": "rectangle",
+        "icon": "Play",
+        "references": [
+          "actor/root_context.go"
+        ]
+      }
+    },
+    {
+      "id": "actor-context",
+      "type": "text",
+      "text": "Actor Context\n\nRuntime context for actor message handling",
+      "x": 888,
+      "y": 258,
+      "width": 200,
+      "height": 100,
+      "color": "#7B1FA2",
+      "pv": {
+        "nodeType": "context",
+        "shape": "rectangle",
+        "icon": "User",
+        "references": [
+          "actor/actor_context.go"
+        ]
+      }
+    },
+    {
+      "id": "process-registry",
+      "type": "text",
+      "text": "Process Registry\n\nPID → Process mapping",
+      "x": 292,
+      "y": 262,
+      "width": 200,
+      "height": 100,
+      "color": "#00796B",
+      "pv": {
+        "nodeType": "registry",
+        "shape": "rectangle",
+        "icon": "Database",
+        "references": [
+          "actor/process_registry.go"
+        ]
+      }
+    },
+    {
+      "id": "props",
+      "type": "text",
+      "text": "Props\n\nActor factory & configuration",
+      "x": 968,
+      "y": 61,
+      "width": 180,
+      "height": 80,
+      "color": "#F57C00",
+      "pv": {
+        "nodeType": "config",
+        "shape": "rectangle",
+        "icon": "Settings",
+        "references": [
+          "actor/props.go",
+          "actor/props_opts.go"
+        ]
+      }
+    },
+    {
+      "id": "mailbox",
+      "type": "text",
+      "text": "Mailbox\n\nMessage queue (bounded/unbounded)",
+      "x": 1184,
+      "y": 60,
+      "width": 180,
+      "height": 80,
+      "color": "#F57C00",
+      "pv": {
+        "nodeType": "infrastructure",
+        "shape": "rectangle",
+        "icon": "Mail",
+        "references": [
+          "actor/mailbox.go"
+        ]
+      }
+    },
+    {
+      "id": "dispatcher",
+      "type": "text",
+      "text": "Dispatcher\n\nGoroutine scheduling",
+      "x": 1184,
+      "y": -80,
+      "width": 180,
+      "height": 80,
+      "color": "#F57C00",
+      "pv": {
+        "nodeType": "infrastructure",
+        "shape": "rectangle",
+        "icon": "Cpu",
+        "references": [
+          "actor/dispatcher.go"
+        ]
+      }
+    },
+    {
+      "id": "supervision",
+      "type": "text",
+      "text": "Supervision\n\nFault handling strategies",
+      "x": 738,
+      "y": 59,
+      "width": 180,
+      "height": 80,
+      "color": "#D32F2F",
+      "pv": {
+        "nodeType": "fault-tolerance",
+        "shape": "rectangle",
+        "icon": "Shield",
+        "references": [
+          "actor/supervision.go",
+          "actor/strategy_all_for_one.go",
+          "actor/strategy_one_for_one.go"
+        ]
+      }
+    },
+    {
+      "id": "remote",
+      "type": "text",
+      "text": "Remote\n\ngRPC-based remote actors",
+      "x": 71,
+      "y": -110,
+      "width": 250,
+      "height": 100,
+      "color": "#455A64",
+      "pv": {
+        "nodeType": "extension",
+        "shape": "rectangle",
+        "icon": "Radio",
+        "references": [
+          "remote/remote.go",
+          "remote/endpoint_manager.go",
+          "remote/endpoint_reader.go"
+        ]
+      }
+    },
+    {
+      "id": "cluster",
+      "type": "text",
+      "text": "Cluster\n\nDistributed virtual actors (grains)",
+      "x": 385,
+      "y": -110,
+      "width": 250,
+      "height": 100,
+      "color": "#455A64",
+      "pv": {
+        "nodeType": "extension",
+        "shape": "rectangle",
+        "icon": "Network",
+        "references": [
+          "cluster/cluster.go",
+          "cluster/gossip_actor.go",
+          "cluster/default_context.go"
+        ]
+      }
+    },
+    {
+      "id": "persistence",
+      "type": "text",
+      "text": "Persistence\n\nEvent sourcing & snapshots",
+      "x": 672,
+      "y": -114,
+      "width": 250,
+      "height": 100,
+      "color": "#455A64",
+      "pv": {
+        "nodeType": "extension",
+        "shape": "rectangle",
+        "icon": "HardDrive",
+        "references": [
+          "persistence/plugin.go",
+          "persistence/receiver.go"
+        ]
+      }
+    },
+    {
+      "id": "pid",
+      "type": "text",
+      "text": "PID\n\nProcess identifier",
+      "x": 604,
+      "y": 424,
+      "width": 100,
+      "height": 60,
+      "color": "#388E3C",
+      "pv": {
+        "nodeType": "value",
+        "shape": "rectangle",
+        "icon": "Tag",
+        "references": [
+          "actor/pid.go"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "system-to-root",
+      "fromNode": "actor-system",
+      "toNode": "root-context",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "label": "creates",
+      "pv": {
+        "edgeType": "owns"
+      }
+    },
+    {
+      "id": "system-to-registry",
+      "fromNode": "actor-system",
+      "toNode": "process-registry",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "label": "owns",
+      "pv": {
+        "edgeType": "owns"
+      }
+    },
+    {
+      "id": "context-spawns",
+      "fromNode": "actor-context",
+      "toNode": "pid",
+      "fromSide": "left",
+      "toSide": "right",
+      "label": "spawns",
+      "pv": {
+        "edgeType": "produces"
+      }
+    },
+    {
+      "id": "cluster-to-remote",
+      "fromNode": "cluster",
+      "toNode": "remote",
+      "fromSide": "left",
+      "toSide": "right",
+      "label": "uses",
+      "pv": {
+        "edgeType": "depends"
+      }
+    },
+    {
+      "id": "edge-process-registry-pid-1773014907742",
+      "fromNode": "process-registry",
+      "toNode": "pid",
+      "fromSide": "bottom",
+      "toSide": "left",
+      "pv": {
+        "edgeType": "stores"
+      }
+    },
+    {
+      "id": "edge-root-context-pid-1773014907742",
+      "fromNode": "root-context",
+      "toNode": "pid",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "produces"
+      }
+    },
+    {
+      "id": "edge-persistence-actor-system-1773014907742",
+      "fromNode": "persistence",
+      "toNode": "actor-system",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "extends"
+      }
+    },
+    {
+      "id": "edge-cluster-actor-system-1773014907742",
+      "fromNode": "cluster",
+      "toNode": "actor-system",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "extends"
+      }
+    },
+    {
+      "id": "edge-remote-actor-system-1773014907742",
+      "fromNode": "remote",
+      "toNode": "actor-system",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "extends"
+      }
+    },
+    {
+      "id": "edge-supervision-actor-context-1773014907742",
+      "fromNode": "supervision",
+      "toNode": "actor-context",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "control"
+      }
+    },
+    {
+      "id": "edge-mailbox-actor-context-1773014907742",
+      "fromNode": "mailbox",
+      "toNode": "actor-context",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "flow"
+      }
+    },
+    {
+      "id": "edge-props-actor-context-1773014907742",
+      "fromNode": "props",
+      "toNode": "actor-context",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "configures"
+      }
+    },
+    {
+      "id": "edge-dispatcher-mailbox-1773014907742",
+      "fromNode": "dispatcher",
+      "toNode": "mailbox",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "flow"
+      }
+    }
+  ],
+  "pv": {
+    "name": "Proto.Actor Go Architecture",
+    "version": "1.0.0",
+    "description": "High-level architecture of the Proto.Actor Go framework",
+    "markdown": ".principal-views/architecture.md",
+    "nodeTypes": {
+      "core": {
+        "label": "Core",
+        "description": "Core system components",
+        "shape": "rectangle",
+        "color": "#1976D2",
+        "icon": "Box"
+      },
+      "context": {
+        "label": "Context",
+        "description": "Actor execution contexts",
+        "shape": "rectangle",
+        "color": "#7B1FA2",
+        "icon": "User"
+      },
+      "registry": {
+        "label": "Registry",
+        "description": "Process registration and lookup",
+        "shape": "rectangle",
+        "color": "#00796B",
+        "icon": "Database"
+      },
+      "config": {
+        "label": "Configuration",
+        "description": "Actor configuration",
+        "shape": "rectangle",
+        "color": "#F57C00",
+        "icon": "Settings"
+      },
+      "infrastructure": {
+        "label": "Infrastructure",
+        "description": "Message processing infrastructure",
+        "shape": "rectangle",
+        "color": "#F57C00",
+        "icon": "Server"
+      },
+      "fault-tolerance": {
+        "label": "Fault Tolerance",
+        "description": "Error handling and recovery",
+        "shape": "rectangle",
+        "color": "#D32F2F",
+        "icon": "Shield"
+      },
+      "extension": {
+        "label": "Extension",
+        "description": "System extensions",
+        "shape": "rectangle",
+        "color": "#455A64",
+        "icon": "Plug"
+      },
+      "value": {
+        "label": "Value",
+        "description": "Value types",
+        "shape": "rectangle",
+        "color": "#388E3C",
+        "icon": "Tag"
+      }
+    },
+    "edgeTypes": {
+      "owns": {
+        "style": "solid",
+        "color": "#1976D2",
+        "width": 2
+      },
+      "produces": {
+        "style": "solid",
+        "color": "#388E3C",
+        "width": 2
+      },
+      "stores": {
+        "style": "dashed",
+        "color": "#00796B",
+        "width": 2
+      },
+      "configures": {
+        "style": "dashed",
+        "color": "#F57C00",
+        "width": 1
+      },
+      "flow": {
+        "style": "solid",
+        "color": "#F57C00",
+        "width": 2
+      },
+      "control": {
+        "style": "dashed",
+        "color": "#D32F2F",
+        "width": 2
+      },
+      "extends": {
+        "style": "solid",
+        "color": "#455A64",
+        "width": 2
+      },
+      "depends": {
+        "style": "dashed",
+        "color": "#455A64",
+        "width": 1
+      }
+    }
+  }
+}

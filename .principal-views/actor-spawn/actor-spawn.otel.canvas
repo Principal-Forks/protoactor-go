@@ -1,0 +1,343 @@
+{
+  "nodes": [
+    {
+      "id": "spawn-started",
+      "type": "text",
+      "text": "Spawn Started",
+      "x": 100,
+      "y": 50,
+      "width": 200,
+      "height": 100,
+      "color": "#2196F3",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.spawn.started",
+          "attributes": {
+            "actor.id": {
+              "type": "string",
+              "description": "The ID of the actor being spawned",
+              "required": true
+            },
+            "actor.parent.id": {
+              "type": "string",
+              "description": "Parent actor ID (empty for root spawn)",
+              "required": false,
+              "display": false
+            },
+            "spawn.type": {
+              "type": "string",
+              "description": "Type of spawn: 'root' or 'child'",
+              "required": true
+            },
+            "props.producer.type": {
+              "type": "string",
+              "description": "Type name of the actor producer",
+              "required": false
+            }
+          }
+        },
+        "references": [
+          "actor/props.go",
+          "actor/root_context.go",
+          "actor/actor_context.go"
+        ],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "spawn-registered",
+      "type": "text",
+      "text": "Registered in ProcessRegistry",
+      "x": 100,
+      "y": 200,
+      "width": 200,
+      "height": 100,
+      "color": "#4CAF50",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.spawn.registered",
+          "attributes": {
+            "actor.id": {
+              "type": "string",
+              "description": "The registered actor ID",
+              "required": true
+            },
+            "actor.pid": {
+              "type": "string",
+              "description": "The assigned PID string representation",
+              "required": true
+            },
+            "registry.absent": {
+              "type": "boolean",
+              "description": "True if ID was absent (successfully registered)",
+              "required": true
+            }
+          }
+        },
+        "references": [
+          "actor/props.go"
+        ],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "spawn-initialized",
+      "type": "text",
+      "text": "Actor Initialized",
+      "x": 100,
+      "y": 350,
+      "width": 200,
+      "height": 100,
+      "color": "#9C27B0",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.spawn.initialized",
+          "attributes": {
+            "actor.id": {
+              "type": "string",
+              "description": "The actor ID",
+              "required": true
+            },
+            "init.count": {
+              "type": "integer",
+              "description": "Number of onInit callbacks executed",
+              "required": false
+            }
+          }
+        },
+        "references": [
+          "actor/props.go"
+        ],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "spawn-complete",
+      "type": "text",
+      "text": "Spawn Complete",
+      "x": 100,
+      "y": 500,
+      "width": 200,
+      "height": 100,
+      "color": "#4CAF50",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.spawn.complete",
+          "attributes": {
+            "actor.id": {
+              "type": "string",
+              "description": "The spawned actor ID",
+              "required": true
+            },
+            "actor.pid": {
+              "type": "string",
+              "description": "The assigned PID string representation",
+              "required": true
+            },
+            "duration.ms": {
+              "type": "number",
+              "description": "Time taken to spawn in milliseconds",
+              "required": false
+            }
+          }
+        },
+        "references": [
+          "actor/props.go",
+          "actor/root_context.go",
+          "actor/actor_context.go"
+        ],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "spawn-child-linked",
+      "type": "text",
+      "text": "Child Linked to Parent",
+      "x": 450,
+      "y": 350,
+      "width": 200,
+      "height": 100,
+      "color": "#FF9800",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.spawn.child.linked",
+          "attributes": {
+            "actor.id": {
+              "type": "string",
+              "description": "The child actor ID",
+              "required": true
+            },
+            "actor.pid": {
+              "type": "string",
+              "description": "The child PID",
+              "required": true
+            },
+            "actor.parent.id": {
+              "type": "string",
+              "description": "The parent actor ID",
+              "required": true
+            },
+            "actor.parent.pid": {
+              "type": "string",
+              "description": "The parent PID",
+              "required": true
+            }
+          }
+        },
+        "references": [
+          "actor/actor_context.go"
+        ],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "spawn-error",
+      "type": "text",
+      "text": "Spawn Error",
+      "x": 450,
+      "y": 50,
+      "width": 200,
+      "height": 100,
+      "color": "#F44336",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.spawn.error",
+          "attributes": {
+            "actor.id": {
+              "type": "string",
+              "description": "The actor ID that failed to spawn",
+              "required": true
+            },
+            "error.type": {
+              "type": "string",
+              "description": "Error type (e.g., 'ErrNameExists')",
+              "required": true
+            },
+            "error.message": {
+              "type": "string",
+              "description": "Error message",
+              "required": true
+            },
+            "error.stage": {
+              "type": "string",
+              "description": "Stage where error occurred (registration, initialization)",
+              "required": false
+            }
+          }
+        },
+        "references": [
+          "actor/props.go"
+        ],
+        "otel": {
+          "kind": "event",
+          "category": "error"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "started-to-registered",
+      "fromNode": "spawn-started",
+      "toNode": "spawn-registered",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "flow"
+      }
+    },
+    {
+      "id": "started-to-error",
+      "fromNode": "spawn-started",
+      "toNode": "spawn-error",
+      "fromSide": "right",
+      "toSide": "left",
+      "pv": {
+        "edgeType": "error"
+      }
+    },
+    {
+      "id": "registered-to-initialized",
+      "fromNode": "spawn-registered",
+      "toNode": "spawn-initialized",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "flow"
+      }
+    },
+    {
+      "id": "initialized-to-complete",
+      "fromNode": "spawn-initialized",
+      "toNode": "spawn-complete",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": {
+        "edgeType": "flow"
+      }
+    },
+    {
+      "id": "initialized-to-child-linked",
+      "fromNode": "spawn-initialized",
+      "toNode": "spawn-child-linked",
+      "fromSide": "right",
+      "toSide": "left",
+      "pv": {
+        "edgeType": "child-only"
+      }
+    },
+    {
+      "id": "child-linked-to-complete",
+      "fromNode": "spawn-child-linked",
+      "toNode": "spawn-complete",
+      "fromSide": "bottom",
+      "toSide": "right",
+      "pv": {
+        "edgeType": "child-only"
+      }
+    }
+  ],
+  "pv": {
+    "name": "Actor Spawn",
+    "version": "1.0.0",
+    "markdown": ".principal-views/actor-spawn/actor-spawn.md",
+    "edgeTypes": {
+      "flow": {
+        "style": "solid",
+        "color": "#64748b",
+        "width": 2
+      },
+      "error": {
+        "style": "dashed",
+        "color": "#ef4444",
+        "width": 2
+      },
+      "child-only": {
+        "style": "solid",
+        "color": "#ff9800",
+        "width": 2
+      }
+    }
+  }
+}

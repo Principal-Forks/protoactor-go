@@ -1,0 +1,376 @@
+{
+  "nodes": [
+    {
+      "id": "failure-detected",
+      "type": "text",
+      "text": "Failure Detected",
+      "x": 100,
+      "y": 50,
+      "width": 200,
+      "height": 100,
+      "color": "#F44336",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.failure.detected",
+          "attributes": {
+            "actor.id": {
+              "type": "string",
+              "description": "The failing actor ID",
+              "required": true
+            },
+            "actor.pid": {
+              "type": "string",
+              "description": "The failing actor PID",
+              "required": true
+            },
+            "failure.reason": {
+              "type": "string",
+              "description": "The failure reason/error message",
+              "required": true
+            },
+            "failure.message": {
+              "type": "string",
+              "description": "The message being processed when failure occurred",
+              "required": false
+            }
+          }
+        },
+        "references": ["actor/actor_context.go"],
+        "otel": {
+          "kind": "event",
+          "category": "error"
+        }
+      }
+    },
+    {
+      "id": "mailbox-suspended",
+      "type": "text",
+      "text": "Mailbox Suspended",
+      "x": 100,
+      "y": 200,
+      "width": 200,
+      "height": 100,
+      "color": "#FF9800",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.mailbox.suspended",
+          "attributes": {
+            "actor.pid": {
+              "type": "string",
+              "description": "The actor PID whose mailbox is suspended",
+              "required": true
+            }
+          }
+        },
+        "references": ["actor/actor_context.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "supervision-decision",
+      "type": "text",
+      "text": "Supervision Decision",
+      "x": 100,
+      "y": 350,
+      "width": 200,
+      "height": 100,
+      "color": "#9C27B0",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.supervision.decision",
+          "attributes": {
+            "actor.pid": {
+              "type": "string",
+              "description": "The failing actor PID",
+              "required": true
+            },
+            "supervisor.pid": {
+              "type": "string",
+              "description": "The supervisor actor PID",
+              "required": true
+            },
+            "strategy.type": {
+              "type": "string",
+              "description": "Supervision strategy type (OneForOne, AllForOne, etc.)",
+              "required": true
+            },
+            "directive": {
+              "type": "string",
+              "description": "The directive decision (Resume, Restart, Stop, Escalate)",
+              "required": true
+            },
+            "restart.count": {
+              "type": "integer",
+              "description": "Number of restarts within the window",
+              "required": false
+            }
+          }
+        },
+        "references": ["actor/supervision.go", "actor/strategy_one_for_one.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "restart-started",
+      "type": "text",
+      "text": "Restart Started",
+      "x": 100,
+      "y": 500,
+      "width": 200,
+      "height": 100,
+      "color": "#2196F3",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.restart.started",
+          "attributes": {
+            "actor.pid": {
+              "type": "string",
+              "description": "The actor PID being restarted",
+              "required": true
+            },
+            "children.count": {
+              "type": "integer",
+              "description": "Number of children to stop",
+              "required": false
+            }
+          }
+        },
+        "references": ["actor/actor_context.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "children-stopped",
+      "type": "text",
+      "text": "Children Stopped",
+      "x": 100,
+      "y": 650,
+      "width": 200,
+      "height": 100,
+      "color": "#607D8B",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.restart.children.stopped",
+          "attributes": {
+            "actor.pid": {
+              "type": "string",
+              "description": "The restarting actor PID",
+              "required": true
+            },
+            "children.stopped": {
+              "type": "integer",
+              "description": "Number of children that were stopped",
+              "required": false
+            }
+          }
+        },
+        "references": ["actor/actor_context.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "restart-complete",
+      "type": "text",
+      "text": "Restart Complete",
+      "x": 100,
+      "y": 800,
+      "width": 200,
+      "height": 100,
+      "color": "#4CAF50",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.restart.complete",
+          "attributes": {
+            "actor.pid": {
+              "type": "string",
+              "description": "The restarted actor PID",
+              "required": true
+            },
+            "stash.replayed": {
+              "type": "integer",
+              "description": "Number of stashed messages replayed",
+              "required": false
+            },
+            "duration.ms": {
+              "type": "number",
+              "description": "Time taken to restart in milliseconds",
+              "required": false
+            }
+          }
+        },
+        "references": ["actor/actor_context.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "actor-stopped",
+      "type": "text",
+      "text": "Actor Stopped (Max Retries)",
+      "x": 400,
+      "y": 350,
+      "width": 220,
+      "height": 100,
+      "color": "#F44336",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.supervision.stopped",
+          "attributes": {
+            "actor.pid": {
+              "type": "string",
+              "description": "The stopped actor PID",
+              "required": true
+            },
+            "reason": {
+              "type": "string",
+              "description": "Why actor was stopped (max_retries, directive)",
+              "required": true
+            },
+            "restart.count": {
+              "type": "integer",
+              "description": "Total restart attempts before stopping",
+              "required": false
+            }
+          }
+        },
+        "references": ["actor/strategy_one_for_one.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "actor-resumed",
+      "type": "text",
+      "text": "Actor Resumed",
+      "x": 400,
+      "y": 500,
+      "width": 200,
+      "height": 100,
+      "color": "#4CAF50",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "actor.supervision.resumed",
+          "attributes": {
+            "actor.pid": {
+              "type": "string",
+              "description": "The resumed actor PID",
+              "required": true
+            }
+          }
+        },
+        "references": ["actor/strategy_one_for_one.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "detected-to-suspended",
+      "fromNode": "failure-detected",
+      "toNode": "mailbox-suspended",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "flow" }
+    },
+    {
+      "id": "suspended-to-decision",
+      "fromNode": "mailbox-suspended",
+      "toNode": "supervision-decision",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "flow" }
+    },
+    {
+      "id": "decision-to-restart",
+      "fromNode": "supervision-decision",
+      "toNode": "restart-started",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "label": "Restart",
+      "pv": { "edgeType": "flow" }
+    },
+    {
+      "id": "decision-to-stopped",
+      "fromNode": "supervision-decision",
+      "toNode": "actor-stopped",
+      "fromSide": "right",
+      "toSide": "left",
+      "label": "Stop",
+      "pv": { "edgeType": "stop" }
+    },
+    {
+      "id": "decision-to-resumed",
+      "fromNode": "supervision-decision",
+      "toNode": "actor-resumed",
+      "fromSide": "right",
+      "toSide": "left",
+      "label": "Resume",
+      "pv": { "edgeType": "success" }
+    },
+    {
+      "id": "restart-to-children",
+      "fromNode": "restart-started",
+      "toNode": "children-stopped",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "flow" }
+    },
+    {
+      "id": "children-to-complete",
+      "fromNode": "children-stopped",
+      "toNode": "restart-complete",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "flow" }
+    }
+  ],
+  "pv": {
+    "name": "Actor Restart & Supervision",
+    "version": "1.0.0",
+    "markdown": ".principal-views/actor-restart/actor-restart.md",
+    "edgeTypes": {
+      "flow": {
+        "style": "solid",
+        "color": "#64748b",
+        "width": 2
+      },
+      "stop": {
+        "style": "dashed",
+        "color": "#ef4444",
+        "width": 2
+      },
+      "success": {
+        "style": "solid",
+        "color": "#22c55e",
+        "width": 2
+      }
+    }
+  }
+}

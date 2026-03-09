@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "canvas": ".principal-views/actor-spawn/actor-spawn.otel.canvas",
+  "name": "Root Actor Spawn",
+  "description": "Spawning actors from RootContext without a parent actor",
+  "spanPattern": "actor.spawn.root",
+  "mode": "span-tree",
+  "scenarios": [
+    {
+      "id": "success",
+      "priority": 1,
+      "description": "Actor spawned successfully",
+      "template": {
+        "events": {
+          "actor.spawn.started": "Starting {{spawn.type}} spawn of {{actor.id}} (producer: {{props.producer.type}})",
+          "actor.spawn.registered": "Registered {{actor.id}} in ProcessRegistry as {{actor.pid}} (absent: {{registry.absent}})",
+          "actor.spawn.initialized": "Actor {{actor.id}} initialized with {{init.count}} callbacks",
+          "actor.spawn.complete": "Spawn complete: {{actor.id}} -> {{actor.pid}} (took {{duration.ms}}ms)"
+        },
+        "summary": "Spawned root actor {{actor.pid}}"
+      }
+    },
+    {
+      "id": "name-exists-error",
+      "priority": 2,
+      "description": "Actor spawn failed due to name collision",
+      "template": {
+        "events": {
+          "actor.spawn.started": "Starting {{spawn.type}} spawn of {{actor.id}} (producer: {{props.producer.type}})",
+          "actor.spawn.error": "Spawn of {{actor.id}} failed at {{error.stage}}: [{{error.type}}] {{error.message}}"
+        },
+        "summary": "Failed to spawn {{actor.id}}: {{error.type}}"
+      }
+    }
+  ]
+}

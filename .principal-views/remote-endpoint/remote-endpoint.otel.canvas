@@ -1,0 +1,358 @@
+{
+  "nodes": [
+    {
+      "id": "connect-started",
+      "type": "text",
+      "text": "Connection Started",
+      "x": 100,
+      "y": 50,
+      "width": 200,
+      "height": 100,
+      "color": "#2196F3",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "remote.endpoint.connect.started",
+          "attributes": {
+            "remote.address": {
+              "type": "string",
+              "description": "The remote address being connected to",
+              "required": true
+            },
+            "local.address": {
+              "type": "string",
+              "description": "The local actor system address",
+              "required": false
+            }
+          }
+        },
+        "references": ["remote/endpoint_manager.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "lazy-triggered",
+      "type": "text",
+      "text": "Lazy Connect Triggered",
+      "x": 100,
+      "y": 200,
+      "width": 200,
+      "height": 100,
+      "color": "#FF9800",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "remote.endpoint.lazy.triggered",
+          "attributes": {
+            "remote.address": {
+              "type": "string",
+              "description": "The remote address",
+              "required": true
+            },
+            "cached": {
+              "type": "boolean",
+              "description": "Whether endpoint was already cached",
+              "required": true
+            }
+          }
+        },
+        "references": ["remote/endpoint_manager.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "supervisor-request",
+      "type": "text",
+      "text": "Supervisor Request",
+      "x": 100,
+      "y": 350,
+      "width": 200,
+      "height": 100,
+      "color": "#9C27B0",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "remote.endpoint.supervisor.request",
+          "attributes": {
+            "remote.address": {
+              "type": "string",
+              "description": "The remote address requested",
+              "required": true
+            },
+            "supervisor.pid": {
+              "type": "string",
+              "description": "The endpoint supervisor PID",
+              "required": true
+            }
+          }
+        },
+        "references": ["remote/endpoint_manager.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "actors-spawned",
+      "type": "text",
+      "text": "Endpoint Actors Spawned",
+      "x": 100,
+      "y": 500,
+      "width": 200,
+      "height": 100,
+      "color": "#673AB7",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "remote.endpoint.actors.spawned",
+          "attributes": {
+            "remote.address": {
+              "type": "string",
+              "description": "The remote address",
+              "required": true
+            },
+            "writer.pid": {
+              "type": "string",
+              "description": "The endpoint writer PID",
+              "required": true
+            },
+            "watcher.pid": {
+              "type": "string",
+              "description": "The endpoint watcher PID",
+              "required": true
+            }
+          }
+        },
+        "references": ["remote/endpoint_manager.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "grpc-connecting",
+      "type": "text",
+      "text": "gRPC Connecting",
+      "x": 100,
+      "y": 650,
+      "width": 200,
+      "height": 100,
+      "color": "#00BCD4",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "remote.endpoint.grpc.connecting",
+          "attributes": {
+            "remote.address": {
+              "type": "string",
+              "description": "The remote gRPC address",
+              "required": true
+            },
+            "retry.attempt": {
+              "type": "integer",
+              "description": "Current retry attempt number",
+              "required": false
+            }
+          }
+        },
+        "references": ["remote/endpoint_writer.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "connect-complete",
+      "type": "text",
+      "text": "Connection Complete",
+      "x": 100,
+      "y": 800,
+      "width": 200,
+      "height": 100,
+      "color": "#4CAF50",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "remote.endpoint.connect.complete",
+          "attributes": {
+            "remote.address": {
+              "type": "string",
+              "description": "The remote address",
+              "required": true
+            },
+            "duration.ms": {
+              "type": "number",
+              "description": "Time taken to establish connection in milliseconds",
+              "required": false
+            }
+          }
+        },
+        "references": ["remote/endpoint_writer.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    },
+    {
+      "id": "connect-error",
+      "type": "text",
+      "text": "Connection Error",
+      "x": 400,
+      "y": 650,
+      "width": 200,
+      "height": 100,
+      "color": "#F44336",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "remote.endpoint.connect.error",
+          "attributes": {
+            "remote.address": {
+              "type": "string",
+              "description": "The remote address",
+              "required": true
+            },
+            "error.type": {
+              "type": "string",
+              "description": "Type of connection error",
+              "required": true
+            },
+            "error.message": {
+              "type": "string",
+              "description": "Error message",
+              "required": true
+            },
+            "retry.attempt": {
+              "type": "integer",
+              "description": "Retry attempt when error occurred",
+              "required": false
+            }
+          }
+        },
+        "references": ["remote/endpoint_writer.go"],
+        "otel": {
+          "kind": "event",
+          "category": "error"
+        }
+      }
+    },
+    {
+      "id": "endpoint-terminated",
+      "type": "text",
+      "text": "Endpoint Terminated",
+      "x": 400,
+      "y": 800,
+      "width": 200,
+      "height": 100,
+      "color": "#607D8B",
+      "pv": {
+        "status": "draft",
+        "event": {
+          "name": "remote.endpoint.terminated",
+          "attributes": {
+            "remote.address": {
+              "type": "string",
+              "description": "The terminated remote address",
+              "required": true
+            },
+            "reason": {
+              "type": "string",
+              "description": "Reason for termination",
+              "required": false
+            }
+          }
+        },
+        "references": ["remote/endpoint_manager.go"],
+        "otel": {
+          "kind": "event",
+          "category": "lifecycle"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "started-to-lazy",
+      "fromNode": "connect-started",
+      "toNode": "lazy-triggered",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "flow" }
+    },
+    {
+      "id": "lazy-to-supervisor",
+      "fromNode": "lazy-triggered",
+      "toNode": "supervisor-request",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "flow" }
+    },
+    {
+      "id": "supervisor-to-spawned",
+      "fromNode": "supervisor-request",
+      "toNode": "actors-spawned",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "flow" }
+    },
+    {
+      "id": "spawned-to-grpc",
+      "fromNode": "actors-spawned",
+      "toNode": "grpc-connecting",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "flow" }
+    },
+    {
+      "id": "grpc-to-complete",
+      "fromNode": "grpc-connecting",
+      "toNode": "connect-complete",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "flow" }
+    },
+    {
+      "id": "grpc-to-error",
+      "fromNode": "grpc-connecting",
+      "toNode": "connect-error",
+      "fromSide": "right",
+      "toSide": "left",
+      "pv": { "edgeType": "error" }
+    },
+    {
+      "id": "error-to-terminated",
+      "fromNode": "connect-error",
+      "toNode": "endpoint-terminated",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "pv": { "edgeType": "error" }
+    }
+  ],
+  "pv": {
+    "name": "Remote Endpoint Connection",
+    "version": "1.0.0",
+    "markdown": ".principal-views/remote-endpoint/remote-endpoint.md",
+    "edgeTypes": {
+      "flow": {
+        "style": "solid",
+        "color": "#64748b",
+        "width": 2
+      },
+      "error": {
+        "style": "dashed",
+        "color": "#ef4444",
+        "width": 2
+      }
+    }
+  }
+}

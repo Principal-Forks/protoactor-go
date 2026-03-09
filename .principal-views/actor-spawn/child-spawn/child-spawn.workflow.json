@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "canvas": ".principal-views/actor-spawn/actor-spawn.otel.canvas",
+  "name": "Child Actor Spawn",
+  "description": "Spawning child actors from within an actor context",
+  "spanPattern": "actor.spawn.child",
+  "mode": "span-tree",
+  "scenarios": [
+    {
+      "id": "success",
+      "priority": 1,
+      "description": "Child actor spawned and linked to parent successfully",
+      "template": {
+        "events": {
+          "actor.spawn.started": "Parent {{actor.parent.id}} starting {{spawn.type}} spawn of {{actor.id}} (producer: {{props.producer.type}})",
+          "actor.spawn.registered": "Registered {{actor.id}} in ProcessRegistry as {{actor.pid}} (absent: {{registry.absent}})",
+          "actor.spawn.initialized": "Child {{actor.id}} initialized with {{init.count}} callbacks",
+          "actor.spawn.child.linked": "Linked child {{actor.id}} ({{actor.pid}}) to parent {{actor.parent.id}} ({{actor.parent.pid}})",
+          "actor.spawn.complete": "Child spawn complete: {{actor.id}} -> {{actor.pid}} (took {{duration.ms}}ms)"
+        },
+        "summary": "Spawned child actor {{actor.pid}} under parent {{actor.parent.id}}"
+      }
+    },
+    {
+      "id": "name-exists-error",
+      "priority": 2,
+      "description": "Child actor spawn failed due to name collision",
+      "template": {
+        "events": {
+          "actor.spawn.started": "Parent {{actor.parent.id}} starting {{spawn.type}} spawn of {{actor.id}} (producer: {{props.producer.type}})",
+          "actor.spawn.error": "Child spawn of {{actor.id}} failed at {{error.stage}}: [{{error.type}}] {{error.message}}"
+        },
+        "summary": "Failed to spawn child {{actor.id}}: {{error.type}}"
+      }
+    }
+  ]
+}

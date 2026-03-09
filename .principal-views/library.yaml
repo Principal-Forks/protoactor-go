@@ -1,0 +1,5 @@
+version: "1.0.0"
+name: protoactor-go
+description: Proto.Actor Go instrumentation library for actor lifecycle telemetry
+nodeComponents: {}
+edgeComponents: {}

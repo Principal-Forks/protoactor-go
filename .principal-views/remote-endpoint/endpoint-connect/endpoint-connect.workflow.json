@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "canvas": ".principal-views/remote-endpoint/remote-endpoint.otel.canvas",
+  "name": "Remote Endpoint Connect",
+  "description": "Establishing gRPC connection to remote actor system",
+  "spanPattern": "remote.endpoint.connect",
+  "mode": "span-tree",
+  "scenarios": [
+    {
+      "id": "connect-success",
+      "priority": 1,
+      "description": "Successfully connected to remote endpoint",
+      "template": {
+        "events": {
+          "remote.endpoint.connect.started": "Connecting to remote address {{remote.address}} from {{local.address}}",
+          "remote.endpoint.lazy.triggered": "Lazy connect triggered for {{remote.address}} (cached: {{cached}})",
+          "remote.endpoint.supervisor.request": "Requesting endpoint from supervisor {{supervisor.pid}} for {{remote.address}}",
+          "remote.endpoint.actors.spawned": "Spawned writer {{writer.pid}} and watcher {{watcher.pid}} for {{remote.address}}",
+          "remote.endpoint.grpc.connecting": "Establishing gRPC connection to {{remote.address}}",
+          "remote.endpoint.connect.complete": "Connected to {{remote.address}} (took {{duration.ms}}ms)"
+        },
+        "summary": "Connected to remote endpoint {{remote.address}}"
+      }
+    },
+    {
+      "id": "connect-failed",
+      "priority": 2,
+      "description": "Failed to connect to remote endpoint",
+      "template": {
+        "events": {
+          "remote.endpoint.connect.started": "Connecting to remote address {{remote.address}} from {{local.address}}",
+          "remote.endpoint.lazy.triggered": "Lazy connect triggered for {{remote.address}} (cached: {{cached}})",
+          "remote.endpoint.supervisor.request": "Requesting endpoint from supervisor {{supervisor.pid}} for {{remote.address}}",
+          "remote.endpoint.actors.spawned": "Spawned writer {{writer.pid}} and watcher {{watcher.pid}} for {{remote.address}}",
+          "remote.endpoint.grpc.connecting": "Establishing gRPC connection to {{remote.address}} (attempt {{retry.attempt}})",
+          "remote.endpoint.connect.error": "Connection failed to {{remote.address}}: [{{error.type}}] {{error.message}} (attempt {{retry.attempt}})",
+          "remote.endpoint.terminated": "Endpoint terminated for {{remote.address}}: {{reason}}"
+        },
+        "summary": "Failed to connect to {{remote.address}}: {{error.type}}"
+      }
+    }
+  ]
+}

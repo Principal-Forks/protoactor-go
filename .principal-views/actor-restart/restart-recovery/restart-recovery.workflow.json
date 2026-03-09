@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "canvas": ".principal-views/actor-restart/actor-restart.otel.canvas",
+  "name": "Actor Restart Recovery",
+  "description": "Fault recovery through supervision and actor restart",
+  "spanPattern": "actor.supervision",
+  "mode": "span-tree",
+  "scenarios": [
+    {
+      "id": "restart-success",
+      "priority": 1,
+      "description": "Actor successfully restarted after failure",
+      "template": {
+        "events": {
+          "actor.failure.detected": "Actor {{actor.id}} ({{actor.pid}}) failed: {{failure.reason}} while processing {{failure.message}}",
+          "actor.mailbox.suspended": "Mailbox suspended for {{actor.pid}}",
+          "actor.supervision.decision": "Supervisor {{supervisor.pid}} decided {{directive}} for {{actor.pid}} (strategy: {{strategy.type}}, restarts: {{restart.count}})",
+          "actor.restart.started": "Restarting {{actor.pid}}, stopping {{children.count}} children",
+          "actor.restart.children.stopped": "All {{children.stopped}} children stopped for {{actor.pid}}",
+          "actor.restart.complete": "Restart complete for {{actor.pid}}, replayed {{stash.replayed}} stashed messages (took {{duration.ms}}ms)"
+        },
+        "summary": "Actor {{actor.pid}} recovered via restart"
+      }
+    },
+    {
+      "id": "max-retries-stopped",
+      "priority": 2,
+      "description": "Actor stopped after exceeding max restart retries",
+      "template": {
+        "events": {
+          "actor.failure.detected": "Actor {{actor.id}} ({{actor.pid}}) failed: {{failure.reason}} while processing {{failure.message}}",
+          "actor.mailbox.suspended": "Mailbox suspended for {{actor.pid}}",
+          "actor.supervision.decision": "Supervisor {{supervisor.pid}} decided {{directive}} for {{actor.pid}} (strategy: {{strategy.type}}, restarts: {{restart.count}})",
+          "actor.supervision.stopped": "Actor {{actor.pid}} stopped: {{reason}} ({{restart.count}} restarts attempted)"
+        },
+        "summary": "Actor {{actor.pid}} stopped after {{restart.count}} restart attempts"
+      }
+    },
+    {
+      "id": "resumed",
+      "priority": 3,
+      "description": "Actor resumed without restart",
+      "template": {
+        "events": {
+          "actor.failure.detected": "Actor {{actor.id}} ({{actor.pid}}) failed: {{failure.reason}} while processing {{failure.message}}",
+          "actor.mailbox.suspended": "Mailbox suspended for {{actor.pid}}",
+          "actor.supervision.decision": "Supervisor {{supervisor.pid}} decided {{directive}} for {{actor.pid}} (strategy: {{strategy.type}}, restarts: {{restart.count}})",
+          "actor.supervision.resumed": "Actor {{actor.pid}} resumed"
+        },
+        "summary": "Actor {{actor.pid}} resumed without restart"
+      }
+    }
+  ]
+}
